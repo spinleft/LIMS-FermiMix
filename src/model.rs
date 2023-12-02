@@ -90,16 +90,28 @@ pub struct FileInfo {
     pub active: bool,
 }
 
+// struct for asset location
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AssetLocation {
+    pub id: uuid::Uuid,
+    pub name: String,
+    pub sub_location: Option<serde_json::Value>,
+    pub description: Option<String>,
+    pub created_at: chrono::NaiveDateTime,
+    pub updated_at: chrono::NaiveDateTime,
+    pub active: bool,
+}
+
 // struct for device information
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DeviceInfo {
     pub id: uuid::Uuid,
     pub name: String,
     pub model: Option<String>,
-    pub category_id: uuid::Uuid,
+    pub category_id: Option<uuid::Uuid>,
     pub group_id: uuid::Uuid,
-    pub web_url: Option<String>,
     pub label_id: Option<serde_json::Value>,
+    pub web_url: Option<String>,
     pub note: Option<String>,
     pub cover_image_id: Option<uuid::Uuid>,
     pub resource: Option<serde_json::Value>,
@@ -112,12 +124,12 @@ pub struct DeviceInfo {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DeviceInventory {
     pub id: uuid::Uuid,
-    pub device_info_id: uuid::Uuid,
-    pub serial_number: Option<String>,
-    pub status: Option<String>,
+    pub info_id: uuid::Uuid,
+    pub serial_number: String,
+    pub status: String,
     pub storage_location: Option<String>,
     pub current_location: Option<String>,
-    pub purchase_date: Option<chrono::NaiveDateTime>,
+    pub purchase_date: Option<chrono::NaiveDate>,
     pub responsible_person_id: Option<uuid::Uuid>,
     pub label_id: Option<serde_json::Value>,
     pub note: Option<String>,
@@ -135,8 +147,8 @@ pub struct MaterialInfo {
     pub model: Option<String>,
     pub category_id: uuid::Uuid,
     pub group_id: uuid::Uuid,
-    pub web_url: Option<String>,
     pub label_id: Option<serde_json::Value>,
+    pub web_url: Option<String>,
     pub note: Option<String>,
     pub cover_image_id: Option<uuid::Uuid>,
     pub resource: Option<serde_json::Value>,
