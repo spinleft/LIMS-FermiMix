@@ -25,7 +25,7 @@ pub struct Laboratory {
     pub name: String,
     pub description: Option<String>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -34,15 +34,15 @@ pub struct Laboratory {
 pub struct User {
     pub id: uuid::Uuid,
     pub username: String,
-    pub password: String,   // password is encrypted into md5
+    pub password: String, // password is encrypted into md5
     pub email: Option<String>,
     pub phone: Option<String>,
-    pub role: String,
-    pub laboratory_id: uuid::Uuid,
+    pub role: Role,
+    pub laboratory_id: Option<uuid::Uuid>,
     pub note: Option<String>,
     pub last_login: Option<chrono::NaiveDateTime>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -53,7 +53,7 @@ pub struct AssetCategory {
     pub name: String,
     pub description: Option<String>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -64,7 +64,7 @@ pub struct AssetGroup {
     pub name: String,
     pub description: Option<String>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -73,7 +73,7 @@ pub struct Label {
     pub name: String,
     pub description: Option<String>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -86,7 +86,7 @@ pub struct FileInfo {
     pub size: u64,
     pub mime_type: String,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -104,7 +104,7 @@ pub struct DeviceInfo {
     pub cover_image_id: Option<uuid::Uuid>,
     pub resource: Option<serde_json::Value>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -123,7 +123,7 @@ pub struct DeviceInventory {
     pub note: Option<String>,
     pub resource: Option<serde_json::Value>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -141,7 +141,7 @@ pub struct MaterialInfo {
     pub cover_image_id: Option<uuid::Uuid>,
     pub resource: Option<serde_json::Value>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -161,7 +161,7 @@ pub struct MaterialInventory {
     pub note: Option<String>,
     pub resource: Option<serde_json::Value>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -180,7 +180,7 @@ pub struct BorrowRecord {
     pub return_date: Option<chrono::NaiveDateTime>,
     pub note: Option<String>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -196,7 +196,7 @@ pub struct UserLoginLog {
     pub login_result: Option<String>,
     pub login_note: Option<String>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
 
@@ -208,7 +208,7 @@ pub enum OperationType {
 }
 
 // enum for operation table
-pub enum OperationTable{
+pub enum OperationTable {
     Laboratory,
     User,
     AssetCategory,
@@ -236,10 +236,6 @@ pub struct OperationLog {
     pub operation_time: chrono::NaiveDateTime,
     pub operation_note: Option<String>,
     pub created_at: chrono::NaiveDateTime,
-    pub updated_at: Option<chrono::NaiveDateTime>,
+    pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
 }
-
-
-
-
