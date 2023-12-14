@@ -18,6 +18,31 @@ pub enum AssetStatus {
     Lost,
 }
 
+// enum for operation type
+pub enum OperationType {
+    Create,
+    Update,
+    Delete,
+}
+
+// enum for operation table
+pub enum OperationTable {
+    Laboratory,
+    User,
+    AssetCategory,
+    AssetGroup,
+    Label,
+    FileInfo,
+    AssetLocation,
+    DeviceInfo,
+    DeviceInventory,
+    PartsInfo,
+    PartsInventory,
+    BorrowRecord,
+    UserLoginLog,
+    OperationLog,
+}
+
 // struct for laboratory
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Laboratory {
@@ -68,6 +93,8 @@ pub struct AssetGroup {
     pub active: bool,
 }
 
+// struct for label
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Label {
     pub id: uuid::Uuid,
     pub name: String,
@@ -84,7 +111,7 @@ pub struct FileInfo {
     pub name: String,
     pub path: String,
     pub size: u64,
-    pub mime_type: String,
+    pub mime_type: Option<String>,
     pub created_at: chrono::NaiveDateTime,
     pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
@@ -109,7 +136,7 @@ pub struct DeviceInfo {
     pub name: String,
     pub model: Option<String>,
     pub category_id: Option<uuid::Uuid>,
-    pub group_id: uuid::Uuid,
+    pub group_id: Option<serde_json::Value>,
     pub label_id: Option<serde_json::Value>,
     pub web_url: Option<String>,
     pub note: Option<String>,
@@ -139,14 +166,14 @@ pub struct DeviceInventory {
     pub active: bool,
 }
 
-// struct for material information
+// struct for parts information
 #[derive(Debug, Serialize, Deserialize)]
-pub struct MaterialInfo {
+pub struct PartsInfo {
     pub id: uuid::Uuid,
     pub name: String,
     pub model: Option<String>,
-    pub category_id: uuid::Uuid,
-    pub group_id: uuid::Uuid,
+    pub category_id: Option<uuid::Uuid>,
+    pub group_id: Option<serde_json::Value>,
     pub label_id: Option<serde_json::Value>,
     pub web_url: Option<String>,
     pub note: Option<String>,
@@ -157,11 +184,11 @@ pub struct MaterialInfo {
     pub active: bool,
 }
 
-// struct for material inventory
+// struct for parts inventory
 #[derive(Debug, Serialize, Deserialize)]
-pub struct MaterialInventory {
+pub struct PartsInventory {
     pub id: uuid::Uuid,
-    pub material_info_id: uuid::Uuid,
+    pub info_id: uuid::Uuid,
     pub status: Option<String>,
     pub count: Option<u32>,
     pub batch_number: Option<String>,
@@ -182,9 +209,9 @@ pub struct MaterialInventory {
 pub struct BorrowRecord {
     pub id: uuid::Uuid,
     pub asset_inventory_id: Option<uuid::Uuid>,
-    pub asset_name: Option<String>,
+    pub asset_name: String,
     pub borrower_id: Option<uuid::Uuid>,
-    pub borrower_name: Option<String>,
+    pub borrower_name: String,
     pub contact: Option<String>,
     pub borrower_laboratory_id: Option<uuid::Uuid>,
     pub borrow_date: chrono::NaiveDateTime,
@@ -201,48 +228,22 @@ pub struct BorrowRecord {
 pub struct UserLoginLog {
     pub id: uuid::Uuid,
     pub user_id: Option<uuid::Uuid>,
-    pub user_name: Option<String>,
     pub login_time: chrono::NaiveDateTime,
     pub login_ip: Option<String>,
-    pub login_device: Option<String>,
-    pub login_result: Option<String>,
-    pub login_note: Option<String>,
+    pub user_agent: Option<String>,
+    pub note: Option<String>,
     pub created_at: chrono::NaiveDateTime,
     pub updated_at: chrono::NaiveDateTime,
     pub active: bool,
-}
-
-// enum for operation type
-pub enum OperationType {
-    Create,
-    Update,
-    Delete,
-}
-
-// enum for operation table
-pub enum OperationTable {
-    Laboratory,
-    User,
-    AssetCategory,
-    AssetGroup,
-    Label,
-    FileInfo,
-    DeviceInfo,
-    DeviceInventory,
-    MaterialInfo,
-    MaterialInventory,
-    BorrowRecord,
-    UserLoginLog,
-    OperationLog,
 }
 
 // struct for operation log
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OperationLog {
     pub id: u64,
-    pub operator_id: Option<uuid::Uuid>,
-    pub operation_type: Option<OperationType>,
-    pub operation_table: Option<OperationTable>,
+    pub user_id: uuid::Uuid,
+    pub operation_type: OperationType,
+    pub operation_table: OperationTable,
     pub value_before: Option<serde_json::Value>,
     pub value_after: Option<serde_json::Value>,
     pub operation_time: chrono::NaiveDateTime,
