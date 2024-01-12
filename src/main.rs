@@ -1,21 +1,7 @@
-use axum::{
-    routing::get,
-    Router,
-    http::StatusCode,
-    response::IntoResponse,
-};
-
-async fn hello_world() -> impl IntoResponse {
-    (StatusCode::OK, "Hello, World!")
-}
-
+use lims_fermimix::run;
+use std::net::TcpListener;
 #[tokio::main]
-async fn main() {
-    let app = Router::new().route("/", get(hello_world));
-
-    // 我们将在localhost的3000端口运行我们的应用
-    axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
-        .serve(app.into_make_service())
-        .await
-        .unwrap();
+async fn main() -> Result<(), std::io::Error> {
+    let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind random port");
+    run(listener)?.await
 }
