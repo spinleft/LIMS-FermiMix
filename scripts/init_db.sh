@@ -58,7 +58,7 @@ case "${OS_TYPE}" in
 
         # Keep pinging Postgres until it's ready to accept commands
         export PGPASSWORD="${DB_PASSWORD}"
-        until psql-16 -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "postgres" -c '\q'; do
+        until /usr/local/Cellar/postgresql@16/16.1_3/bin/psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "${DB_NAME}" -c '\q'; do
             >&2 echo "Postgres is still unavailable - sleeping"
             sleep 1
         done
