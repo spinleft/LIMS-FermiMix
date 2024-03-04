@@ -2,7 +2,6 @@
 set -x
 
 if ! [ -x "$(command -v psql)" ]; then
-elif ! [ -x "$(command -v psql-6)" ]; then
     echo >&2 "Error: psql is not installed."
     exit 1
 fi
@@ -52,13 +51,14 @@ case "${OS_TYPE}" in
     Darwin)
         echo "Detect OS as MacOSX."
 
-        brew install postgresql@16
-        brew services start postgresql@16
-        createuser-16 -P -c1000 -d ${DB_USER}
+        brew install postgresql
+        brew services start postgresql
+        createuser -P -c1000 -d ${DB_USER}
+        createdb -O ${DB_USER} ${DB_NAME}
 
         # Keep pinging Postgres until it's ready to accept commands
         export PGPASSWORD="${DB_PASSWORD}"
-        until /usr/local/Cellar/postgresql@16/16.1_3/bin/psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "${DB_NAME}" -c '\q'; do
+        until psql -h "${DB_HOST}" -U "${DB_USER}" -p "${DB_PORT}" -d "${DB_NAME}" -c '\q'; do
             >&2 echo "Postgres is still unavailable - sleeping"
             sleep 1
         done
